@@ -1,0 +1,42 @@
+#define echoPin 3 //echo pini
+#define trigPin 2 //trig pini
+#define led 4 //led pini
+
+void setup()
+{
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(led, OUTPUT);
+}
+
+void loop()
+{
+  int olcum = mesafe(); //mesafe değişkeni
+
+  if(olcum!=0)
+  {
+    digitalWrite(led, LOW); 
+   if(olcum <60) // 60 santime denk geliyor
+    {
+      digitalWrite(led, HIGH); //60 santimden yakınsa led yanıyor
+    }
+    else
+    {
+      digitalWrite(led, LOW); //60 santimden uzakta ise led kapanıcak
+    }
+  }
+}
+
+int mesafe()
+{
+  long sure, uzaklik;
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  sure = pulseIn(echoPin, HIGH);
+  uzaklik = sure / 58.2;
+  delay(50);
+  return uzaklik;
+}
